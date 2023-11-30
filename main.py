@@ -1,5 +1,6 @@
 import typer
-from modulos.server import Server
+from modulos.sockets.server import Server
+from modulos.sockets.client import Client 
 
 app = typer.Typer()
 
@@ -14,8 +15,9 @@ def servidor(address: str = '127.0.0.1', port: int = 12345):
         raise err
 
 @app.command(name="client")
-def cliente(address: str = '127.0.0.1', port: int = 12345):
-    print('Has abierto un cliente...')
+def cliente(username: str, address: str = '127.0.0.1', port: int = 12345):
+    client = Client(address, port, username)
+    client.run()
 
 if __name__ == "__main__":
     app()

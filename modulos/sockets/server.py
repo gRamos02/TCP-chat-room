@@ -1,5 +1,7 @@
 # import socket
 import threading
+import logging
+import traceback
 from .socket_base import MySocket
 
 
@@ -13,8 +15,13 @@ class Server(MySocket):
         super().__init__()
         self.address = address
         self.port = port
-        self.socket.bind((address, port))
-        self.socket.listen(1)
+        try:
+            self.socket.bind((address, port))
+            self.socket.listen(1)
+        except OSError as err:
+            if err.errno == 98:
+                print("La direccion ya esta en uso")
+                self.socket.close()
 
     def __str__(self):
         return f"{self.address}:{self.port}"
@@ -29,14 +36,14 @@ class Server(MySocket):
         self.connected_clients.append(client)
         self.usernames.append(username)
         print(f"{username} conectado desde: {str(addr)}")
-        client.send(f"Bienvenido, {username}".encode())
+        client.send(f"Server: Bienvenido, {username}".encode())
         self.send_message(f"{username} se ha unido...".encode(), client)
         return (client, addr)
 
     def disconnect_client(self, client):
         idx = self.connected_clients.index(client)
         username = self.usernames[idx]
-        self.send_message(f"Server: {username} se desconecto...".encode, client)
+        self.send_message(f"Server: {username} se desconecto...".encode(), client)
         self.connected_clients.remove(client)
         self.usernames.remove(username)
         client.close()
@@ -45,7 +52,7 @@ class Server(MySocket):
     def send_message(self, message, __client):
         #Por cada cliente conectado se enviara el mensaje (ya codificado)
         for client in self.connected_clients:
-            #A todos menos el emisot
+            #A todos menos el emisor
             if client != __client:
                 client.send(message)
 
@@ -54,11 +61,21 @@ class Server(MySocket):
         while True:
             try:
                 msg = client.recv(self.BUFFER_SIZE)
+                if(msg.decode().lower() == "quit"):
+                    self.disconnect_client(client)
+                    break
+
                 self.send_message(msg, client)
             except:
                 self.disconnect_client(client)
+                logging.error(traceback.format_exc())
                 break
 
+    def shutdown_server(self):
+        print("Apagando server...")
+        self.socket.close()
+        self.msg_thread.join()
+        print("Apagado...")
 
     #Metodos publicos
     def run(self):
@@ -66,11 +83,17 @@ class Server(MySocket):
         while True:
             try:
                 client, addr = self.accept_connection()
-                thread = threading.Thread(target=self.process_messages, args=(client,))
-                thread.start()
+                self.msg_thread = threading.Thread(target=self.process_messages, args=(client,))
+                self.msg_thread.start()
+            except OSError:
+                self.shutdown_server()
+                print(f"Error: {logging.error(traceback.format_exc)}")
             except KeyboardInterrupt:
+                self.shutdown_server()
                 print("Se interrumpio el servidor")
-                self.socket.close()
+            except Exception:
+                self.shutdown_server()
+                logging.error(traceback.format_exc())
 
 
 
