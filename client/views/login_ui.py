@@ -38,7 +38,7 @@ class Ui_LoginForm(object):
         self.label.setStyleSheet(u"color: #3c3836;")
         self.verticalLayoutWidget = QWidget(LoginForm)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(90, 70, 201, 81))
+        self.verticalLayoutWidget.setGeometry(QRect(90, 70, 201, 82))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -52,6 +52,7 @@ class Ui_LoginForm(object):
 
         self.username_input = QLineEdit(self.verticalLayoutWidget)
         self.username_input.setObjectName(u"username_input")
+        self.username_input.setStyleSheet(u"color: #282828;")
 
         self.verticalLayout.addWidget(self.username_input)
 

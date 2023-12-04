@@ -1,10 +1,6 @@
 import typer
 from modulos.sockets.server import Server
-from modulos.sockets.client import Client 
-import sys
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QLabel
-from client.app import run_client
+from client.app import AppClient
 
 app = typer.Typer()
 
@@ -25,7 +21,9 @@ def servidor(address: str = '127.0.0.1', port: int = 12345):
 
 @app.command(name="client")
 def client():
-    run_client()
+    # run_client()
+    app = AppClient()
+    app.run()
 
 if __name__ == "__main__":
     app()

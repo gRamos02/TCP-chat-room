@@ -1,7 +1,6 @@
 import socket
 from threading import Thread
 from PySide6.QtCore import Qt
-import PySide6.QtGui
 from PySide6.QtWidgets import QWidget, QMessageBox
 from views.chat_ui import Ui_ChatForm
 

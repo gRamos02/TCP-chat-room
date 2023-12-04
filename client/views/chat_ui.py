@@ -64,7 +64,7 @@ class Ui_ChatForm(object):
         font2.setPointSize(18)
         font2.setBold(True)
         self.msg_output.setFont(font2)
-        self.msg_output.setStyleSheet(u"background-color: #f9f5d7;")
+        self.msg_output.setStyleSheet(u"background-color: #f9f5d7; color: #282828;")
         self.msg_output.setReadOnly(True)
 
         self.verticalLayout.addWidget(self.msg_output)
