@@ -3,7 +3,7 @@ from controllers.window import ServerWindow
 import sys
 
 app = QApplication(sys.argv)
-window = ServerWindow(('localhost', 12345))
+window = ServerWindow(('0.0.0.0', 12345))
 
 def run_client():
     window.show()

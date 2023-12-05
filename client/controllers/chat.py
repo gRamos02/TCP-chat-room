@@ -7,10 +7,11 @@ from views.chat_ui import Ui_ChatForm
 BUFFER_SIZE = 1024
 
 class ChatWindow(QWidget, Ui_ChatForm):
-    def __init__(self, username) -> None:
+    def __init__(self, username, address) -> None:
         super().__init__()
         self.setupUi(self)
         self.username = username
+        self.address = address
         self.username_label.setText(f"Bienvenido, {username}")
         self.start_connection()
         self.send_button.clicked.connect(self.send_messages)
@@ -20,13 +21,13 @@ class ChatWindow(QWidget, Ui_ChatForm):
         exit()
 
     def start_connection(self) -> None:
-        address = ('localhost', 12345) #DATOS DEL SERVER
+        # address = ('localhost', 12345) #DATOS DEL SERVER
         self.client_socket = socket.socket(
             socket.AF_INET, # IPv4
             socket.SOCK_STREAM #TIPO (TCP)
         )
         #CONECTARSE Y MANDAR EL NOMBRE DE USUARIO
-        self.client_socket.connect(address)
+        self.client_socket.connect(self.address)
         self.client_socket.send(self.username.encode())
 
         recv_thread = Thread(target=self.recv_messages)
@@ -45,7 +46,7 @@ class ChatWindow(QWidget, Ui_ChatForm):
                 self.msg_output.append(message)
                 self.msg_output.setAlignment(Qt.AlignmentFlag.AlignLeft)
             except:
-                self.client_socket.close()
+                self.exit()
                 break
     
     def send_messages(self) -> None:

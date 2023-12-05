@@ -15,14 +15,20 @@ class LoginWindow(QWidget, Ui_LoginForm):
             super().keyPressEvent(event)
 
     def login(self):
-        username = self.username_input.text().lower()
-
-        if username != '':
-            from controllers.chat import ChatWindow
-            self.chat_window = ChatWindow(username)
-            self.chat_window.show()
-            self.close()
-        else:
-            alert = QMessageBox(text='Introduce un nombre de usuario valido.')
+        try:
+            addr = self.address_input.text()
+            port = self.port_input.text()
+            username = self.username_input.text().lower()
+            if username == '' or addr == '' or port == '':
+                alert = QMessageBox(text='Llena todo los campos')
+                alert.exec()
+            else:
+                from controllers.chat import ChatWindow
+                address = (addr, int(port))
+                self.chat_window = ChatWindow(username, address)
+                self.chat_window.show()
+                self.close()
+        except Exception as err:
+            alert = QMessageBox(text=f"{err}")
             alert.exec()
             

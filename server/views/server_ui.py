@@ -40,39 +40,21 @@ class Ui_ServerForm(object):
         self.server_button.setStyleSheet(u"background-color: #282828; color: #fbf1c7;")
         self.horizontalLayoutWidget = QWidget(ServerForm)
         self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")
-        self.horizontalLayoutWidget.setGeometry(QRect(116, 13, 160, 31))
+        self.horizontalLayoutWidget.setGeometry(QRect(116, 13, 461, 31))
         self.horizontalLayout = QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.label = QLabel(self.horizontalLayoutWidget)
-        self.label.setObjectName(u"label")
-        self.label.setStyleSheet(u"color: #282828;")
-
-        self.horizontalLayout.addWidget(self.label)
-
         self.status_label = QLabel(self.horizontalLayoutWidget)
         self.status_label.setObjectName(u"status_label")
         self.status_label.setStyleSheet(u"color: #282828")
 
         self.horizontalLayout.addWidget(self.status_label)
 
-        self.horizontalLayoutWidget_2 = QWidget(ServerForm)
-        self.horizontalLayoutWidget_2.setObjectName(u"horizontalLayoutWidget_2")
-        self.horizontalLayoutWidget_2.setGeometry(QRect(410, 10, 178, 31))
-        self.horizontalLayout_2 = QHBoxLayout(self.horizontalLayoutWidget_2)
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.label_3 = QLabel(self.horizontalLayoutWidget_2)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setStyleSheet(u"color: #282828;")
-
-        self.horizontalLayout_2.addWidget(self.label_3)
-
-        self.connected_label = QLabel(self.horizontalLayoutWidget_2)
+        self.connected_label = QLabel(self.horizontalLayoutWidget)
         self.connected_label.setObjectName(u"connected_label")
         self.connected_label.setStyleSheet(u"color: #282828")
 
-        self.horizontalLayout_2.addWidget(self.connected_label)
+        self.horizontalLayout.addWidget(self.connected_label)
 
 
         self.retranslateUi(ServerForm)
@@ -83,9 +65,7 @@ class Ui_ServerForm(object):
     def retranslateUi(self, ServerForm):
         ServerForm.setWindowTitle(QCoreApplication.translate("ServerForm", u"Form", None))
         self.server_button.setText(QCoreApplication.translate("ServerForm", u"ENCENDER", None))
-        self.label.setText(QCoreApplication.translate("ServerForm", u"STATUS:", None))
-        self.status_label.setText(QCoreApplication.translate("ServerForm", u"{status}", None))
-        self.label_3.setText(QCoreApplication.translate("ServerForm", u"CONECTADOS:", None))
-        self.connected_label.setText(QCoreApplication.translate("ServerForm", u"{cantidad}", None))
+        self.status_label.setText("")
+        self.connected_label.setText("")
     # retranslateUi
 

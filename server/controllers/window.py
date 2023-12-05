@@ -92,6 +92,7 @@ class ServerWindow(QWidget, Ui_ServerForm):
         # Y tambien guardar el socket en sus respectivas listas
         username = client.recv(BUFFER_SIZE).decode()
         self.connected_clients.append(client)
+        print(self.connected_clients)
         self.usernames.append(username)
         print(f"{username} conectado desde: {str(addr)}")
         self.server_console.append(f"{username} conectado desde: {str(addr)}")
@@ -120,9 +121,9 @@ class ServerWindow(QWidget, Ui_ServerForm):
         self.send_message(f"Server: {username} se desconecto...".encode(), client)
         self.connected_clients.remove(client)
         self.usernames.remove(username)
-        client.close()
         print(f"Se desconecto el usuario {username}")
         self.server_console.append(f"Se desconecto el usuario {username}")
+        client.close()
 
     def send_message(self, message, __client):
         #Por cada cliente conectado se enviara el mensaje (ya codificado)
