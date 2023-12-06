@@ -1,4 +1,3 @@
-from typing import Optional
 from PySide6.QtCore import Qt, QThread
 from PySide6.QtWidgets import QWidget, QMessageBox
 from views.server_ui import Ui_ServerForm 
@@ -7,13 +6,16 @@ import socket
 import logging
 import traceback
 from threading import Thread
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
 #ENUM para representar el estado del server
 class Status(Enum):
     OFF = 0
     ON = 1 
 
-
+POLINOMIO = os.getenv('POLINOMIO')
+CLAVE_CRC = os.getenv('CLAVE_CRC')
 BUFFER_SIZE = 1024
 
 #Clase del hilo donde corre el servidor (pa probar QThread)
@@ -26,6 +28,8 @@ class ServerThread(QThread):
         self.server_window.status = Status.ON 
         print(f"Servidor inicializado en {self.server_window.address}\nEsperando conexiones...")
         self.server_window.server_console.append(f"Servidor inicializado en {self.server_window.address}\nEsperando conexiones...")
+        self.server_window.server_console.append(f"POLINOMIO GENERADOR: {POLINOMIO}")
+        self.server_window.server_console.append(f"CLAVE CRC:  {CLAVE_CRC}")
         # while True:
         while self.server_window.status == Status.ON:
             try:
