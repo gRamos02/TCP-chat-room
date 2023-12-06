@@ -46,8 +46,8 @@ class ServerThread(QThread):
                 logging.error(traceback.format_exc())
                 self.server_window.server_console.append(traceback.format_exc())
 
-        self.server_window.msg_thread.join()
-        
+        # self.server_window.msg_thread.join()
+ 
 
 
 #Clase de la ventana
@@ -80,7 +80,6 @@ class ServerWindow(QWidget, Ui_ServerForm):
             self.shutdown_server()
         else:
             event.accept()
-        exit()
 
     def run_server(self):
         self.server_thread.start()
@@ -92,9 +91,8 @@ class ServerWindow(QWidget, Ui_ServerForm):
         # Y tambien guardar el socket en sus respectivas listas
         username = client.recv(BUFFER_SIZE).decode()
         self.connected_clients.append(client)
-        print(self.connected_clients)
         self.usernames.append(username)
-        print(f"{username} conectado desde: {str(addr)}")
+        # print(f"{username} conectado desde: {str(addr)}")
         self.server_console.append(f"{username} conectado desde: {str(addr)}")
         client.send(f"Server: Bienvenido, {username}".encode())
         self.send_message(f"{username} se ha unido...".encode(), client)
@@ -116,14 +114,17 @@ class ServerWindow(QWidget, Ui_ServerForm):
                 break
 
     def disconnect_client(self, client):
-        idx = self.connected_clients.index(client)
-        username = self.usernames[idx]
-        self.send_message(f"Server: {username} se desconecto...".encode(), client)
-        self.connected_clients.remove(client)
-        self.usernames.remove(username)
-        print(f"Se desconecto el usuario {username}")
-        self.server_console.append(f"Se desconecto el usuario {username}")
-        client.close()
+        try:
+            idx = self.connected_clients.index(client)
+            username = self.usernames[idx]
+            self.send_message(f"Server: {username} se desconecto...".encode(), client)
+            self.connected_clients.remove(client)
+            self.usernames.remove(username)
+            # print(f"Se desconecto el usuario {username}")
+            self.server_console.append(f"Se desconecto el usuario {username}")
+            client.close()
+        except Exception as err:
+            self.server_console.append(f"Error: {err}")
 
     def send_message(self, message, __client):
         #Por cada cliente conectado se enviara el mensaje (ya codificado)

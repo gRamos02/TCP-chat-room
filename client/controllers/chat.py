@@ -18,7 +18,7 @@ class ChatWindow(QWidget, Ui_ChatForm):
 
     def closeEvent(self, event) -> None:
         event.accept()
-        exit()
+        self.exit()
 
     def start_connection(self) -> None:
         # address = ('localhost', 12345) #DATOS DEL SERVER
@@ -35,9 +35,11 @@ class ChatWindow(QWidget, Ui_ChatForm):
         recv_thread.start()
 
     def exit(self):
-        self.client_socket.send("quit".encode())
-        self.client_socket.close()
-        self.close()
+        try:
+            self.client_socket.send("quit".encode())
+            self.client_socket.close()
+        except Exception as err:
+            print(err)
 
     def recv_messages(self) -> None:
         while True:

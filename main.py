@@ -2,6 +2,7 @@ import typer
 from modulos.sockets.server import Server
 from client.app import AppClient
 
+
 app = typer.Typer()
 
 
